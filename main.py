@@ -12,9 +12,9 @@ try:
     from Qt import QtCore, QtWidgets
     import PyQt5
 except ImportError:
-    os.system('python -m pip install --upgrade pip  --user')
-    os.system('python -m pip install --upgrade PyQt5  --user')
-    os.system('python -m pip install --upgrade qt.py  --user')
+    os.system('python -m pip install --upgrade pip  ')
+    os.system('python -m pip install --upgrade PyQt5  ')
+    os.system('python -m pip install --upgrade qt.py  ')
 
     from Qt import QtCore, QtWidgets
 
@@ -86,9 +86,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.pushButtonConvert.clicked.connect(self.convert)
         self.pushButtonExample.clicked.connect(self.example)
-        self.radioButtonFortigate.setChecked(True)
+        # self.radioButtonFortigate.setChecked(True)
+        self.radioButtonCisco.setChecked(True)
         self.checkBoxCreateGroup.clicked.connect(self.group)
-        self.checkBoxIsVirtual.clicked.connect(self.virtual)
+        self.checkBoxIsNBF.clicked.connect(self.virtual)
         self.lineEditGroupName.setEnabled(False)
         self.radioButtonNorth.setEnabled(False)
         self.radioButtonSouth.setEnabled(False)
@@ -101,7 +102,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEditGroupName.setEnabled(False)
 
     def virtual(self):
-        if self.checkBoxIsVirtual.isChecked():
+        if self.checkBoxIsNBF.isChecked():
             self.radioButtonNorth.setEnabled(True)
             self.radioButtonSouth.setEnabled(True)
             self.labelResultsErrors.setText("Please select a interface")
@@ -123,7 +124,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 errorText += "Please add group name \n"
                 errors = True
 
-        if commentText == "":
+        if commentText == "" and self.radioButtonFortigate.isChecked():
             errorText += "Please add comment \n"
             errors = True
 
@@ -176,7 +177,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for oneLine in listOfTexts:
             if self.createIpObjects(oneLine[0]) != "error":
                 list1.append(self.createIpObjects(oneLine[0]))
-                list2.append(oneLine[1])
+                try:
+                    list2.append(oneLine[1])
+                except:
+                    list2.append("'Insert text here'")
+                
             # lVarIpObjects.append([createIpObjects(oneLine[0]),oneLine[1]])
 
         lVarIpObjects.append([list1, list2])
@@ -193,7 +198,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 data = ''.join(data.split())
                 return data
-        except Exception as e:
+        #except Exception as e:
+        except:
             data = re.sub(r"\s+", "", data, flags=re.UNICODE)
             return data.rstrip()
 
@@ -287,8 +293,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         ipAddressDuplicatedList.append(ipobject)
             for x in ipAddressList:
-                virtual = self.checkBoxIsVirtual.isChecked()
+                virtual = self.checkBoxIsNBF.isChecked()
                 if virtual:  # Different naming convention
+                    if not self.radioButtonNorth.isChecked() and not self.radioButtonSouth.isChecked():
+                        self.radioButtonNorth.setChecked(True)
                     if self.radioButtonNorth.isChecked():
                         if x.prefixlen == 32:  # External or public address
                             objName = "External Server " + str(x.network_address)
@@ -315,7 +323,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def createScript(self,hostName, ipObject):
         comm = self.lineEditComment.text()
-        virtual = self.checkBoxIsVirtual.isChecked()
+        virtual = self.checkBoxIsNBF.isChecked()
         if virtual:
             if self.radioButtonSouth.isChecked():
                 virtualInt = "South"

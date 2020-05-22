@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_window.ui'
+# Form implementation generated from reading ui file 'main_window2.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -36,9 +36,9 @@ class Ui_MainWindow(object):
         self.radioButtonSouth = QtWidgets.QRadioButton(self.frame)
         self.radioButtonSouth.setGeometry(QtCore.QRect(20, 40, 82, 17))
         self.radioButtonSouth.setObjectName("radioButtonSouth")
-        self.checkBoxIsVirtual = QtWidgets.QCheckBox(self.frame)
-        self.checkBoxIsVirtual.setGeometry(QtCore.QRect(0, 0, 70, 17))
-        self.checkBoxIsVirtual.setObjectName("checkBoxIsVirtual")
+        self.checkBoxIsNBF = QtWidgets.QCheckBox(self.frame)
+        self.checkBoxIsNBF.setGeometry(QtCore.QRect(0, 0, 70, 17))
+        self.checkBoxIsNBF.setObjectName("checkBoxIsNBF")
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.frame_2.setGeometry(QtCore.QRect(50, 20, 120, 71))
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
         self.checkBoxCreateGroup.setText(_translate("MainWindow", "Create group with the objects created"))
         self.radioButtonNorth.setText(_translate("MainWindow", "North"))
         self.radioButtonSouth.setText(_translate("MainWindow", "South"))
-        self.checkBoxIsVirtual.setText(_translate("MainWindow", "Is Virtual ?"))
+        self.checkBoxIsNBF.setText(_translate("MainWindow", "Is NBF ?"))
         self.radioButtonCisco.setText(_translate("MainWindow", "Cisco"))
         self.radioButtonFortigate.setText(_translate("MainWindow", "Fortigate"))
         self.label_4.setText(_translate("MainWindow", "Vendor"))
@@ -109,15 +109,5 @@ class Ui_MainWindow(object):
         self.labelResults.setText(_translate("MainWindow", "Results"))
         self.labelResultsErrors.setText(_translate("MainWindow", "Errors"))
         self.pushButtonExample.setText(_translate("MainWindow", "Example"))
-        self.label.setText(_translate("MainWindow", "Insert IP\'s here:"))
+        self.label.setText(_translate("MainWindow", "Insert IP or list of IP\'s here:"))
         self.label_3.setText(_translate("MainWindow", "Group Name:"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
