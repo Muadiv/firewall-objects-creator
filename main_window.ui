@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>paw-png.ico</normaloff>paw-png.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPlainTextEdit" name="plainTextEditOriginal">
     <property name="geometry">

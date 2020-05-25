@@ -386,8 +386,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     ipO = oList[0][0][w]
                     parcialScript = self.createScriptCisco(nameO, ipO)
                     finalScript.append(parcialScript)
-                    hostNamesList.append("\"" + nameO + "\"")
-                cc = len(oList)
+                    hostNamesList.append(nameO)
+                # cc = len(oList)
         else:
             ft = self.plainTextEditOriginal.toPlainText()
             for x in ft.splitlines():
@@ -401,7 +401,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 nameO = str(x.network_address)
                 parcialScript = self.createScriptCisco(nameO, x)
                 finalScript.append(parcialScript)
-                hostNamesList.append("\"" + nameO + "\"")
+                hostNamesList.append(nameO)
             cc = len(ipAddressList)
         t = "\n".join(map(str, finalScript))
         if createGroupWEObj:
@@ -411,13 +411,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def createScriptCisco(self,hostName, ipObject):
         #comm = self.lineEditComment.text()
         if ipObject.prefixlen == 32:
-            fs = """object network {objNamex}
-     host {ipObjectx}
-    """.format(objNamex=hostName, ipObjectx=str(ipObject.network_address))
+
+            #fs = "object-group network {objNamex} \n network-object host {ipObjectx} ".format(objNamex=hostName, ipObjectx=str(ipObject.network_address))
+            ipObjectx = str(ipObject.network_address)
+            fs = f"object-group network {hostName} \n network-object host {ipObjectx} "
         else:
-            fs = """object network {objNamex}
-     subnet {ipObjectx}
-    """.format(objNamex=hostName, ipObjectx=str(ipObject.with_netmask).replace('/', ' '))
+            #fs = "object-group network {objNamex} \n network-object {ipObjectx} ".format(objNamex=hostName, ipObjectx=str(ipObject.with_netmask).replace('/', ' '))
+            ipObjectx = str(ipObject.with_netmask).replace('/', ' ')
+            fs = f"object-group network {hostName} \n network-object {ipObjectx} "
         return fs
 
     def createGroupCisco(self,hostNetObjects):
@@ -425,10 +426,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if not gName:
             app.infoBox("Error", "You forgot to add the group name")
             pass
-        var1 = "object-group network " + gName + "\n"
+        var1 = f"object-group network {gName} \n"
         fl = ""
-        for x in hostNetObjects:
-            fl = fl + " network-object object " + x + "\n"
+        for obj_group in hostNetObjects:
+            fl =f"{fl} group-object {obj_group} \n"
             pass
         ft = var1 + fl
         return ft
@@ -438,7 +439,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = MainWindow()
-    window.setWindowTitle("Firewall object creator - By:Muadiv")
+    window.setWindowTitle("Firewall object creator - By:Muadiv - V0.3")
     window.show()
 
     app.exec_()
