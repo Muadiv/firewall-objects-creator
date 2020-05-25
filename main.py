@@ -234,15 +234,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plainTextEditResult.clear()
         if ft:
             if len(errorsFoundList) > 0:
+                errorfound = str(len(errorsFoundList))
+                self.plainTextEditResult.appendPlainText(f"------------ Errors found: {errorfound} ------------")
                 self.plainTextEditResult.appendPlainText("\n".join(map(str, errorsFoundList)))
-                self.plainTextEditResult.appendPlainText("\n")
-                self.plainTextEditResult.appendPlainText("------------" + str(len(errorsFoundList)) + " errors found--------------")
+                self.plainTextEditResult.appendPlainText("------------ -------------- --------------")
                 errors = "Errors found: " + str(len(errorsFoundList))
                 self.plainTextEditResult.appendPlainText("\n")
             if len(ipAddressDuplicatedList) > 0:
+                duplifound = str(len(ipAddressDuplicatedList))
+                self.plainTextEditResult.appendPlainText(f"------------ Duplicated found: {duplifound} ------------")
                 self.plainTextEditResult.appendPlainText("\n".join(map(str, ipAddressDuplicatedList)))
-                self.plainTextEditResult.appendPlainText("\n")
-                self.plainTextEditResult.appendPlainText("------------" + str(len(ipAddressDuplicatedList)) + " duplicated found--------------")
+                self.plainTextEditResult.appendPlainText("------------ -------------- --------------")
                 dupli = "Duplicated found: " + str(len(ipAddressDuplicatedList))
                 self.plainTextEditResult.appendPlainText("\n")
             # app.setTextArea("t2","\n".join(map(str,fullScript)))
@@ -369,6 +371,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         useCustomNames = self.checkBoxCustomNames.isChecked()
         createGroupWEObj = self.checkBoxCreateGroup.isChecked()
         finalScript = []
+        
         if useCustomNames:
             oList = self.optCreationOfHost_NetObjects_CustomNames()
             for x in oList:
@@ -402,10 +405,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 parcialScript = self.createScriptCisco(nameO, x)
                 finalScript.append(parcialScript)
                 hostNamesList.append(nameO)
-            cc = len(ipAddressList)
+            # cc = len(ipAddressList)
         t = "\n".join(map(str, finalScript))
         if createGroupWEObj:
-            t = t + "\n" + "--------------- Group ----------------" + "\n" + self.createGroupCisco(hostNamesList)
+            t = "--------------- Objects script ---------------- \n" + t + "\n--------------- Group ----------------" + "\n" + self.createGroupCisco(hostNamesList)
         self.showResults(t, len(ipAddressList))
 
     def createScriptCisco(self,hostName, ipObject):
